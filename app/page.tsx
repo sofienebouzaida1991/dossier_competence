@@ -13,16 +13,43 @@ export default function DossierCompetences() {
     localisation: ''
   });
 
-  const [missions, setMissions] = useState([]);
+  interface Mission {
+    id: number;
+    client: string;
+    projet: string;
+    periode: string;
+    duree: string;
+    role: string;
+    contexte: string;
+    missions: string;
+    technologies: string;
+    environnement: string;
+  }
+
+  interface Formation {
+    id: number;
+    diplome: string;
+    etablissement: string;
+    annee: string;
+  }
+
+  interface Certification {
+    id: number;
+    nom: string;
+    organisme: string;
+    annee: string;
+  }
+
+  const [missions, setMissions] = useState<Mission[]>([]);
   const [competences, setCompetences] = useState({
-    langages: [],
-    frameworks: [],
-    outils: [],
-    methodologies: []
+    langages: [] as string[],
+    frameworks: [] as string[],
+    outils: [] as string[],
+    methodologies: [] as string[]
   });
 
-  const [formations, setFormations] = useState([]);
-  const [certifications, setCertifications] = useState([]);
+  const [formations, setFormations] = useState<Formation[]>([]);
+  const [certifications, setCertifications] = useState<Certification[]>([]);
 
   const addMission = () => {
     setMissions([...missions, {
@@ -39,11 +66,11 @@ export default function DossierCompetences() {
     }]);
   };
 
-  const updateMission = (id, field, value) => {
+  const updateMission = (id: number, field: string, value: string) => {
     setMissions(missions.map(m => m.id === id ? {...m, [field]: value} : m));
   };
 
-  const deleteMission = (id) => {
+  const deleteMission = (id: number) => {
     setMissions(missions.filter(m => m.id !== id));
   };
 
@@ -267,7 +294,7 @@ export default function DossierCompetences() {
                 <textarea
                   placeholder="Contexte du projet"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 bg-white"
-                  rows="2"
+                  rows={2}
                   value={mission.contexte}
                   onChange={(e) => updateMission(mission.id, 'contexte', e.target.value)}
                 />
@@ -275,7 +302,7 @@ export default function DossierCompetences() {
                 <textarea
                   placeholder="Missions réalisées (détails des tâches et responsabilités)"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 mb-4 bg-white"
-                  rows="4"
+                  rows={4}
                   value={mission.missions}
                   onChange={(e) => updateMission(mission.id, 'missions', e.target.value)}
                 />
